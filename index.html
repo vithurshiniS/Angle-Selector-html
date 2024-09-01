@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angle Selector</title>
+    <style>
+        .angle-container {
+            text-align: center;
+            margin: 20px;
+        }
+        .radio-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="angle-container">
+        <input type="number" id="angleInput" min="0" max="360" value="0">
+        <br>
+        <input type="range" id="angleSlider" min="0" max="360" value="180">
+        <br>
+        <div class="radio-buttons">
+            <label><input type="radio" name="angleRadio" value="0"> 0°</label>
+            <label><input type="radio" name="angleRadio" value="45"> 45°</label>
+            <label><input type="radio" name="angleRadio" value="60"> 60°</label>
+            <label><input type="radio" name="angleRadio" value="90"> 90°</label>
+            <label><input type="radio" name="angleRadio" value="180"> 180°</label>
+        </div>
+    </div>
+
+    <script>
+        const angleInput = document.getElementById('angleInput');
+        const angleSlider = document.getElementById('angleSlider');
+        const angleRadios = document.getElementsByName('angleRadio');
+
+        function updateAllControls(value) {
+            let validValue = Math.min(Math.max(parseInt(value), 0), 360);
+            angleInput.value = validValue;
+            angleSlider.value = validValue;
+
+            angleRadios.forEach(radio => {
+                radio.checked = parseInt(radio.value) === validValue;
+            });
+        }
+
+        angleInput.addEventListener('input', (e) => {
+            updateAllControls(e.target.value);
+        });
+
+        angleSlider.addEventListener('input', (e) => {
+            updateAllControls(e.target.value);
+        });
+
+        angleRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                updateAllControls(e.target.value);
+            });
+        });
+
+        // Initialize slider to middle position (180)
+        updateAllControls(0);
+    </script>
+</body>
+</html>
